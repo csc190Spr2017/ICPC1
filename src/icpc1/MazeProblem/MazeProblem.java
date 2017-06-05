@@ -24,6 +24,8 @@ public class MazeProblem implements Problem{
     
     //METHODS 
     //--------------------------------------
+    public int getRow() {return this.currRow; }
+    public int getCol() {return this.currCol; }
     
     /**
      * entryRow, col should be in range [0, n-1], assume n is the size
@@ -68,6 +70,7 @@ public class MazeProblem implements Problem{
             if(!isOK(nextRow, nextCol)) continue;
             
             //this is a good one
+            this.actions[this.currRow][this.currCol] = idxAct;
             return ma;
         }
         return null;
@@ -79,7 +82,7 @@ public class MazeProblem implements Problem{
     }
     private void checkOK() throws Exception{
         
-        if(this.isOK(this.currRow, this.currCol)){
+        if(!this.isOK(this.currRow, this.currCol)){
             throw new Exception("IT'S not good!");
         }
     }
@@ -110,6 +113,10 @@ public class MazeProblem implements Problem{
         return "cur: (" + this.currRow + ", " + this.currCol + ")";
     }
     
+    @Override
+    public String toString(){
+        return this.ToString();
+    }
     
     
 }

@@ -32,11 +32,13 @@ public class BTAlg {
             Action nextAct = prob.getNextAction();
             boolean bSolved = prob.isSolved();
             if(bSolved || nextAct==null){
-                Action lastAct = stackSolution.pop();
-                prob.revokeAction(lastAct);
+                Action lastAct = stackSolution.peek();
                 if(bSolved){                    
-                    arrRet.add(stackSolution);
+                    arrRet.add((Stack<Action>)stackSolution.clone());
                 }
+                stackSolution.pop();
+                prob.revokeAction(lastAct);
+                
             }else{            
                 prob.applyAction(nextAct);
                 if(pstore.isVisited(prob)){
@@ -57,7 +59,7 @@ public class BTAlg {
     public void printSolution(Stack<Action> solution, int id){
         System.out.println("Solution: " + id + "-----");
         for(int i=0; i<solution.size(); i++){
-            System.out.println(solution.get(id).toString());
+           System.out.println(solution.get(i).toString());
         }
     }
 }

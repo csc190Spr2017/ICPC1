@@ -35,4 +35,9 @@ public class MazeAction implements Action{
         return "(" + this.rowOffset + ", " + this.colOffset + ")";
     }
     
+     @Override
+    public String toString(){
+        return this.ToString();
+    }
+    
 }

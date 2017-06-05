@@ -14,14 +14,34 @@ import icpc1.ProblemStore;
  */
 public class MazeProblemStore implements ProblemStore{
 
+    //data members
+    protected int n;
+    protected boolean [][] bVisited;
+    //methods
+    public MazeProblemStore(int mazesize){
+        this.n = mazesize;
+        bVisited = new boolean [n][n];
+        for(int i=0; i<n; i++){
+            bVisited[i] = new boolean [n];
+            for(int j=0; j<n; j++){
+                bVisited[i][j] = false;
+            }
+        }
+    }
     @Override
     public void registerVisited(Problem problem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MazeProblem mp = (MazeProblem) problem;
+        int r = mp.currRow;
+        int c = mp.currCol;
+        bVisited[r][c] = true;
     }
 
     @Override
     public boolean isVisited(Problem problem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MazeProblem mp = (MazeProblem) problem;
+        int r = mp.currRow;
+        int c = mp.currCol;
+        return bVisited[r][c];
     }
     
 }
