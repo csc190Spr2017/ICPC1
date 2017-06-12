@@ -29,6 +29,7 @@ public class BTAlg {
         pstore.registerVisited(prob);
         do{
             //0. if the problem is solved, backtrack directly
+            String probStr = prob.toString();
             Action nextAct = prob.getNextAction();
             boolean bSolved = prob.isSolved();
             if(bSolved || nextAct==null){
@@ -44,7 +45,9 @@ public class BTAlg {
                 if(pstore.isVisited(prob)){
                     prob.revokeAction(nextAct);
                 }else{//good, go ahead
-                    pstore.registerVisited(prob);
+                    if(!prob.isSolved()){
+                        pstore.registerVisited(prob);
+                    }
                     stackSolution.add(nextAct);
                 }
                 
