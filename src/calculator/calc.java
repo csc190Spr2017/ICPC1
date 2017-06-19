@@ -33,6 +33,7 @@ public class calc {
             Integer currNum = stack.pop();
             counter++;
             doBreak = bRegular? counter==2: currNum==null;
+            
             if(op.equals("+")){
                 acc += currNum;
             }
