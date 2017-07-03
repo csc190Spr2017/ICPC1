@@ -11,7 +11,7 @@ import java.util.LinkedList;
  *
  * @author csc190
  */
-public class TreeNode<T> {
+public class TreeNode<T extends Comparable<T>> {
 
     T data;
     TreeNode<T> left;
@@ -29,11 +29,15 @@ public class TreeNode<T> {
 
     public void setRight(TreeNode<T> right){
         this.right = right;
+        if(this.right!=null){
         this.right.parent = this;
+        }
     }
     public void setLeft(TreeNode<T> left){
         this.left = left;
+        if(this.left!=null){
         this.left.parent = this;
+        }
     }
     
     public void setNeighbor(TreeNode<T> neighbor){
@@ -140,5 +144,51 @@ public class TreeNode<T> {
         } while (nextNode1 != null && nextNode2 != null);
         return false;
     }
-       
+    
+    public static TreeNode buildFromOrder(int [] preOrder, int startIdx, int [] inorder, int iStartIdx, int size){
+        if(size == 0){
+            return null;
+        } else {
+            TreeNode root = new TreeNode(preOrder[startIdx]);
+            int i;
+            for(i = iStartIdx; i < iStartIdx + size - 1 && inorder[i]!=preOrder[startIdx]; i++);
+            int leftTreeSize = i - iStartIdx;
+            int rightTreeSize = size - leftTreeSize - 1;
+            TreeNode leftTree = buildFromOrder(preOrder, startIdx+1, inorder, iStartIdx+1, leftTreeSize);
+            TreeNode rightTree = buildFromOrder(preOrder, i+1, inorder, i+1, rightTreeSize);
+            root.setLeft(leftTree);
+            root.setRight(rightTree);
+            return root;
+        }
+        
+    }
+    
+    public static void inorder(TreeNode root){
+        if(root==null) return;
+        else{
+            inorder(root.left);
+            System.out.println(root.data);
+            inorder(root.right);
+        }
+    }
+    
+    public static void postorder(TreeNode root){
+        if(root==null) return;
+        else{
+            postorder(root.left);            
+            postorder(root.right);
+            System.out.println(root.data);
+        }
+    }
+    
+     public static void preorder(TreeNode root){
+        if(root==null) return;
+        else{
+            System.out.println(root.data);
+            preorder(root.left);   
+            
+            preorder(root.right);
+            
+        }
+    }
 }

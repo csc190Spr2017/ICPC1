@@ -11,7 +11,7 @@ import java.util.Stack;
  *
  * @author csc190
  */
-public class DFSExplorer<T> {
+public class DFSExplorer<T extends Comparable<T>> {
 
     Stack<stackElement> stack = new Stack<stackElement>();
 
