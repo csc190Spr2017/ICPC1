@@ -5,6 +5,7 @@
  */
 package Tree1;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -191,4 +192,71 @@ public class TreeNode<T extends Comparable<T>> {
             
         }
     }
+     
+     public static ArrayList<TreeNode> getInOrder(TreeNode root){
+         ArrayList<TreeNode> result = new ArrayList<TreeNode>();
+         if(root !=null){
+             result.addAll(TreeNode.getInOrder(root.left));
+             result.add(root); //guaranteed not null
+             result.addAll(TreeNode.getInOrder(root.right));
+         } 
+         return result;
+     }
+     
+     //add the element to the array and INCREASE that idx
+     private static void addEleToArr(ArrayList<TreeNode> res, TreeNode node){               
+         if(res.size()==0 || !res.get(res.size()-1).data.equals(node.data)){
+             res.add(node);
+         }
+     }
+     public static ArrayList<TreeNode> mergeSort(ArrayList<TreeNode> arr1, ArrayList<TreeNode> arr2){
+         ArrayList<TreeNode> result = new ArrayList<TreeNode>();
+         ArrayList<TreeNode> [] arrAL = new ArrayList [2];
+         arrAL[0] = arr1; arrAL[1] = arr2;
+         int [] arrIdx = new int [] {0, 0};
+       
+         
+         for(int i=0; i<arr1.size() + arr2.size(); i++){
+             //to decide WHICH array to take from
+             int which = 0;
+             if(arrIdx[0]==arr1.size()){
+                 which = 1;
+             }else if(arrIdx[1] ==arr2.size()){
+                 which = 0;
+             }else{//both have data
+                 which = arrAL[0].get(arrIdx[0]).data.compareTo(arrAL[1].get(arrIdx[1]).data)>0?1: 0;
+             }
+             
+             //do the job
+             TreeNode toAdd = arrAL[which].get(arrIdx[which]);
+             arrIdx[which]++;
+            if(result.size()==0 || !result.get(result.size()-1).data.equals(toAdd.data)){
+                result.add(toAdd);
+            }
+         }
+         return result;
+     }
+     
+     public static TreeNode build_Tree_Out_Of_Arr(ArrayList<TreeNode> arr, int left, int right){
+         if(left>right){
+             return null;
+         } else {
+             int mid = (left+right)/2;
+             TreeNode root = new TreeNode(arr.get(mid).data);
+             root.setLeft(build_Tree_Out_Of_Arr(arr, left, mid-1));
+             root.setRight(build_Tree_Out_Of_Arr(arr, mid+1, right));
+             return root;
+         }
+     } 
+     
+     public static TreeNode mergeBST(TreeNode tn1, TreeNode tn2){
+         if(tn1==null) return tn2;
+         if(tn2==null) return tn1;
+         //now none of them is null
+         
+         ArrayList<TreeNode> ATN1 = getInOrder(tn1);
+         ArrayList<TreeNode> ATN2 = getInOrder(tn2);
+         ArrayList<TreeNode> Merged = mergeSort(ATN1, ATN2);
+         return build_Tree_Out_Of_Arr(Merged, 0, Merged.size()-1);
+     }
 }
